@@ -11,15 +11,19 @@ namespace WebApp.Controllers
 {
     public class HomeController : Controller
     {
+        [ViewData]
+        public string Value { get; set; }
+
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
         }
-
         public IActionResult Index()
         {
+            Value = "Some value";
+            ViewData["Text"] = "Some data";
             return View();
         }
 
