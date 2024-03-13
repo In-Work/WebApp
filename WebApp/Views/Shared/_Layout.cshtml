@@ -15,9 +15,9 @@
             <nav class="navbar navbar-expand-md navbar-dark bg-dark">
                 <!-- site menu -->
                 <div class="navbar-nav">
-                    <a class="nav-item nav-link active" href="#">Home</a>
-                    <a class="nav-item nav-link" href="#">Catalog</a>
-                    <a class="nav-item nav-link" href="#">Administration</a>
+                    <div class="navbar-nav">
+                        @await Component.InvokeAsync("Menu")
+                    </div>
                 </div>
                 <!-- site menu - end -->
                 <!-- User information -->
