@@ -21,27 +21,7 @@
                 </div>
                 <!-- site menu - end -->
                 <!-- User information -->
-                <a asp-controller="Cart" asp-action="Index" class="navbar-text ml-auto">
-                    00,0 руб <i class="fas fa-shopping-cart nav-color"></i> (0)
-                </a>
-                <div class="dropdown ml-4 nav-color">
-                    <div class="dropdown-toggle" id="dropdownMenuButton"
-                         data-toggle="dropdown"
-                         aria-haspopup="true" aria-expanded="false">
-                        <img src="~/images/avatar.png" width="30" alt="User"
-                             class="rounded" />
-                    </div>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <div class="dropdown-item-text">
-                            <img src="~/images/avatar.png" width="50" alt="User"
-                                 class="rounded" />
-                            user@mail.ru
-                        </div>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" asp-controller="Cart" aspaction="Index">Cart</a>
-                        <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Logout">Log off</a>
-                    </div>
-                </div>
+                <partial name="_UserPartial"/>
                 <!-- User information - end -->
             </nav>
             <!-- Navigation bar - end -->
