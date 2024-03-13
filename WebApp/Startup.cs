@@ -11,7 +11,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebApp.Data;
+using WebAppDB.Data;
+using WebAppDB.Entities;
 
 namespace WebApp
 {
@@ -34,6 +35,16 @@ namespace WebApp
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireDigit = false;
+            })
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
