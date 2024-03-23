@@ -27,8 +27,8 @@ namespace WebApp.Controllers
                 new ListDemo{ ListItemValue=2, ListItemText="Item 2"},
                 new ListDemo{ ListItemValue=3, ListItemText="Item 3"}
             };
-
         }
+
         public IActionResult Index()
         {
             MyList = new SelectList(_listDemo, "ListItemValue", "ListItemText");
