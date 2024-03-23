@@ -6,7 +6,7 @@ using WebAppDB.Entities;
 
 namespace WebApp.Services
 {
-    public class DbInitializer
+    public static class DbInitializer
     {
         public static async Task Seed(ApplicationDbContext context, UserManager<ApplicationUser> userManager,RoleManager<IdentityRole> roleManager)
         {
