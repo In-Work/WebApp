@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using WebApp.Models;
 using WebAppDB.Entities;
 
 namespace WebApp.Controllers
@@ -79,11 +80,7 @@ namespace WebApp.Controllers
 
         public IActionResult Index(int pageNo = 1)
         {
-            var items = _dishes
-           .Skip((pageNo - 1) * _pageSize)
-           .Take(_pageSize)
-           .ToList();
-            return View(items);
+            return View(ListViewModel<Dish>.GetModel(_dishes, pageNo, _pageSize));
         }
     }
 }
