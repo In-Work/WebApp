@@ -1,4 +1,6 @@
-﻿using WebApp.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using WebApp.Controllers;
+using WebApp.Models;
 using WebAppDB.Entities;
 
 namespace WebApp.Test
@@ -35,6 +37,24 @@ namespace WebApp.Test
 
             // Assert
             Assert.Equal(id, model[0].DishId);
+        }
+
+        [Fact]
+        public void ControllerSelectsGroup()
+        {
+            // Arrange
+            var controller = new ProductController();
+            var data = TestData.GetDishesList();
+            controller._dishes = data;
+            var comparer = Comparer<Dish>.GetComparer((d1, d2) => d1.DishId.Equals(d2.DishId));
+
+            // Act
+            var result = controller.Index(2) as ViewResult;
+            var model = result.Model as List<Dish>;
+
+            // Assert
+            Assert.Equal(2, model.Count);
+            Assert.Equal(data[2], model[0], comparer);
         }
     }
 }

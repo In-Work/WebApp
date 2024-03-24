@@ -10,7 +10,7 @@ namespace WebApp.Controllers
     {
         public List<Dish> _dishes;
         private List<DishGroup> _dishGroups;
-        private int _pageSize;
+        private readonly int _pageSize;
         public ProductController()
         {
             _pageSize = 3;

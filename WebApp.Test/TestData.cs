@@ -8,11 +8,11 @@ namespace WebApp.Test
         {
             return new List<Dish>
             {
-                new Dish{ DishId = 1 },
-                new Dish{ DishId = 2 },
-                new Dish{ DishId = 3 },
-                new Dish{ DishId = 4 },
-                new Dish{ DishId = 5 }
+                new Dish{ DishId = 1, DishGroupId = 1},
+                new Dish{ DishId = 2, DishGroupId = 1},
+                new Dish{ DishId = 3, DishGroupId = 2},
+                new Dish{ DishId = 4, DishGroupId = 2},
+                new Dish{ DishId = 5, DishGroupId = 3}
             };
         }
 
