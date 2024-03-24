@@ -1,15 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 using WebAppDB.Entities;
 
 namespace WebApp.Controllers
 {
     public class ProductController : Controller
     {
-        List<Dish> _dishes;
-        List<DishGroup> _dishGroups;
+        public List<Dish> _dishes;
+        private List<DishGroup> _dishGroups;
+        private int _pageSize;
         public ProductController()
         {
+            _pageSize = 3;
             SetupData();
         }
 
@@ -74,9 +77,13 @@ namespace WebApp.Controllers
             };
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int pageNo = 1)
         {
-            return View(_dishes);
+            var items = _dishes
+           .Skip((pageNo - 1) * _pageSize)
+           .Take(_pageSize)
+           .ToList();
+            return View(items);
         }
     }
 }
