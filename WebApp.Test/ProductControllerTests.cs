@@ -16,7 +16,7 @@ namespace WebApp.Test
             controller._dishes = TestData.GetDishesList();
 
             // Act
-            var result = controller.Index(page) as ViewResult;
+            var result = controller.Index(pageNo: page, group: null) as ViewResult;
             var model = result?.Model as List<Dish>;
 
             // Assert
