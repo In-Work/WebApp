@@ -84,7 +84,20 @@ namespace WebApp.Controllers
             ViewData["CurrentGroup"] = group ?? 0;
 
             var dishesFiltered = _dishes.Where(d => !group.HasValue || d.DishGroupId == group.Value);
-            return View(ListViewModel<Dish>.GetModel(dishesFiltered, pageNo, _pageSize));
+            var model = ListViewModel<Dish>.GetModel(dishesFiltered, pageNo, _pageSize);
+            var condition = Request.Headers["x-requested-with"]
+                .ToString()
+                .ToLower()
+                .Equals("xmlhttprequest");
+
+            if (condition)
+            {
+                return PartialView("_listpartial", model);
+            }
+            else
+            {
+                return View(model);
+            }
         }
     }
 }
