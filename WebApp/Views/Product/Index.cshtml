@@ -1,4 +1,5 @@
 ﻿@model ListViewModel<Dish>
+@addTagHelper "WebApp.TagHelpers.*, WebApp"
 
 @{
     ViewData["Title"] = "Products";
@@ -6,8 +7,8 @@
     var categories = ViewData["Groups"] as IEnumerable<DishGroup>;
     int currentGroup = (int)ViewData["CurrentGroup"];
 
-    var text = currentGroup != 0 ? 
-    categories.FirstOrDefault(g => g.DishGroupId == currentGroup) ?
+    var text = currentGroup != 0 ?
+    categories.FirstOrDefault(g => g.DishGroupId == currentGroup)?
     .GroupName : "All";
 }
 
@@ -17,28 +18,28 @@
     <div class="col-2">
         <div class="dropdown mt-2">
             <a class="btn btn-secondary dropdown-toggle"
-                asp-action="Index"
-                asp-controller="Product"
-                role="button"
-                id="dropdownMenuLink"
-                data-toggle="dropdown"
-                aria-haspopup="true" 
-                aria-expanded="false">
-            @text
+               asp-action="Index"
+               asp-controller="Product"
+               role="button"
+               id="dropdownMenuLink"
+               data-toggle="dropdown"
+               aria-haspopup="true"
+               aria-expanded="false">
+                @text
             </a>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 <a class="dropdown-item"
-                    asp-action="Index"
-                    asp-controller="Product">
+                   asp-action="Index"
+                   asp-controller="Product">
                     All
                 </a>
                 @foreach (var item in categories)
                 {
                     <a class="dropdown-item"
-                        asp-action="Index"
-                        asp-controller="Product"
-                        asp-route-group="@item.DishGroupId"
-                        asp-route-pageNo="1">
+                       asp-action="Index"
+                       asp-controller="Product"
+                       asp-route-group="@item.DishGroupId"
+                       asp-route-pageNo="1">
                         @item.GroupName
                     </a>
                 }
@@ -52,5 +53,11 @@
                 <partial name="_ListItemPartial" model="@item" />
             }
         </div>
+        <pagination page-current="@Model.CurrentPage"
+                    page-total="@Model.TotalPages"
+                    action="Index"
+                    controller="Product"
+                    group-id="@currentGroup">
+        </pagination>
     </div>
 </div>
