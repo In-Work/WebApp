@@ -6,7 +6,7 @@ namespace WebApp.Components
 {
     public class MenuViewComponent : ViewComponent
     {
-        private List<MenuItem> _menuItems;
+        private readonly List<MenuItem> _menuItems;
         public MenuViewComponent()
         {
             _menuItems = new List<MenuItem> 
