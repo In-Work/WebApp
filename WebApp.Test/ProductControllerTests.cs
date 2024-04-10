@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using WebApp.Controllers;
 using WebAppDB.Entities;
+using Moq;
 
 namespace WebApp.Test
 {
@@ -9,9 +11,18 @@ namespace WebApp.Test
         [Theory]
         [MemberData(nameof(TestData.Params), MemberType = typeof(TestData))]
         public void ControllerGetsProperPage(int page, int quantity, int id)
-        {
+        {  
             // Arrange
-            var controller = new ProductController();
+            var controllerContext = new ControllerContext();
+            var moqHttpContext = new Mock<HttpContext>();
+
+            moqHttpContext.Setup(c => c.Request.Headers).Returns(new HeaderDictionary());
+            controllerContext.HttpContext = moqHttpContext.Object;
+
+            var controller = new ProductController()
+            { 
+                ControllerContext = controllerContext 
+            };
 
             controller._dishes = TestData.GetDishesList();
 

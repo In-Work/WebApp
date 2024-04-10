@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using WebApp.Extensions;
 using WebApp.Models;
 using WebAppDB.Entities;
 
@@ -78,6 +79,8 @@ namespace WebApp.Controllers
             };
         }
 
+        [Route("Catalog")]
+        [Route("Catalog/Page_{pageNo}")]
         public IActionResult Index(int? group, int pageNo = 1)
         {
             ViewData["Groups"] = _dishGroups;
@@ -90,7 +93,7 @@ namespace WebApp.Controllers
                 .ToLower()
                 .Equals("xmlhttprequest");
 
-            if (condition)
+            if (Request.IsAjaxRequest())
             {
                 return PartialView("_listpartial", model);
             }
