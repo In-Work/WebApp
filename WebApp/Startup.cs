@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using WebApp.Extensions;
 using WebApp.Models;
 using WebApp.Services;
 using WebAppDB.Data;
@@ -64,6 +65,7 @@ namespace WebApp
         ILoggerFactory logger)
         {
             logger.AddFile("Logs/log-{Date}.txt");
+            app.UseFileLogging();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -88,7 +90,7 @@ namespace WebApp
             });
             DbInitializer.Seed(context, userManager, roleManager)
                 .GetAwaiter()
-                .GetResult();
+                .GetResult(); 
         }
     }
 }

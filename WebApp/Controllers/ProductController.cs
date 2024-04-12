@@ -20,7 +20,6 @@ namespace WebApp.Controllers
             _context = context;
         }
 
-
         [Route("Catalog")]
         [Route("Catalog/Page_{pageNo}")]
         public IActionResult Index(int? group, int pageNo = 1)
