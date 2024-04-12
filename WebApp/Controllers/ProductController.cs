@@ -13,13 +13,11 @@ namespace WebApp.Controllers
     {
         private readonly int _pageSize;
         private readonly ApplicationDbContext _context;
-        private readonly ILogger _logger;
 
-        public ProductController(ApplicationDbContext context, ILogger<ProductController> logger)
+        public ProductController(ApplicationDbContext context)
         {
             _pageSize = 3;
             _context = context;
-            _logger = logger;
         }
 
 
@@ -29,8 +27,6 @@ namespace WebApp.Controllers
         {
             var dishesFiltered = _context.Dishes
                 .Where(d => !group.HasValue || d.DishGroupId == group.Value);
-
-            _logger.LogInformation($"info: group={group}, page={pageNo}");
 
             ViewData["Groups"] = _context.DishGroups;
             ViewData["CurrentGroup"] = group ?? 0;
