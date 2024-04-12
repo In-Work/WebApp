@@ -1,0 +1,53 @@
+﻿@page
+@model WebApp.Areas.apiDemo.Pages.IndexModel
+@{
+}
+
+<table class="table table-striped table-sm" id="list"></table>
+<div class="lead" id="info"></div>
+
+@section Scripts
+{
+    <script>
+
+        var url = "@Url.Action("GetDishes", "Dishes")";
+        $(document).ready(function () {
+
+            $.getJSON(url, function (data) {
+                var table = $("#list");
+
+                $.each(data, function (num, value) {
+                    createRow(num + 1, value).appendTo(table);
+                });
+            });
+        })
+
+        function createRow(index, data) {
+            var row = $("<tr>");
+            row.append("<td>" + index + "</td>");
+            row.append("<td>" + data.dishName + "</td>");
+
+            var button = $("<button>");
+            button.addClass("btn btn-success");
+            button.click(data.dishId, showDetails);
+            button.text("Подробно");
+
+            var td = $("<td>");
+            td.append(button);
+            row.append(td);
+
+            return row;
+        }
+
+        function showDetails(e) {
+            $.getJSON(url + "/" + e.data, function (data) {
+                var details = data.dishName + ": "
+                    + data.description + " - "
+                    + data.calories + " калорий";
+
+                $("#info").empty().text(details);
+            });
+        }
+
+    </script>
+}

@@ -13,7 +13,8 @@ namespace WebApp.Components
             {
                 new MenuItem{ Controller="Home", Action="Index", Text="Home"},
                 new MenuItem{ Controller="Product", Action="Index", Text="Product"},
-                new MenuItem{ IsPage=true, Area="Admin", Page="/Index", Text="Admin"}
+                new MenuItem{ IsPage=true, Area="Admin", Page="/Index", Text="Admin"},
+                new MenuItem{ IsPage=true, Area="apiDemo", Page="/Index", Text="API"},
             };
         }
 
