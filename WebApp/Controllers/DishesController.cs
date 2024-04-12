@@ -23,10 +23,11 @@ namespace WebApp.Controllers
 
         // GET: api/Dishes
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Dish>>> GetDishes()
+        public async Task<ActionResult<IEnumerable<Dish>>> GetDishes(int? group)
         {
-            return await _context.Dishes.ToListAsync();
+            return await _context.Dishes.Where(d => !group.HasValue || d.DishGroupId.Equals(group.Value))?.ToListAsync();
         }
+
 
         // GET: api/Dishes/5
         [HttpGet("{id}")]
