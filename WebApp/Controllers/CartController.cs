@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using WebApp.Models;
 using WebAppDB.Data;
-using WebApp.Extensions;
-using System.Collections.Generic;
 
 namespace WebApp.Controllers
 {

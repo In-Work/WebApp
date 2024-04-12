@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
 using WebApp.Extensions;
@@ -12,12 +13,15 @@ namespace WebApp.Controllers
     {
         private readonly int _pageSize;
         private readonly ApplicationDbContext _context;
+        private readonly ILogger _logger;
 
-        public ProductController(ApplicationDbContext context)
+        public ProductController(ApplicationDbContext context, ILogger<ProductController> logger)
         {
             _pageSize = 3;
             _context = context;
+            _logger = logger;
         }
+
 
         [Route("Catalog")]
         [Route("Catalog/Page_{pageNo}")]
@@ -25,6 +29,8 @@ namespace WebApp.Controllers
         {
             var dishesFiltered = _context.Dishes
                 .Where(d => !group.HasValue || d.DishGroupId == group.Value);
+
+            _logger.LogInformation($"info: group={group}, page={pageNo}");
 
             ViewData["Groups"] = _context.DishGroups;
             ViewData["CurrentGroup"] = group ?? 0;
