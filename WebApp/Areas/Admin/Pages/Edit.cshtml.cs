@@ -1,5 +1,8 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,14 +14,19 @@ namespace WebApp.Areas.Admin.Pages
     public class EditModel : PageModel
     {
         private readonly WebAppDB.Data.ApplicationDbContext _context;
+        private IWebHostEnvironment _environment;
 
-        public EditModel(WebAppDB.Data.ApplicationDbContext context)
+        public EditModel(WebAppDB.Data.ApplicationDbContext context, IWebHostEnvironment env)
         {
             _context = context;
+            _environment = env;
         }
 
         [BindProperty]
         public Dish Dish { get; set; }
+
+        [BindProperty]
+        public IFormFile Image { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -34,7 +42,7 @@ namespace WebApp.Areas.Admin.Pages
             {
                 return NotFound();
             }
-           ViewData["DishGroupId"] = new SelectList(_context.DishGroups, "DishGroupId", "DishGroupId");
+           ViewData["DishGroupId"] = new SelectList(_context.DishGroups, "DishGroupId", "DishGroupId", "GroupName");
             return Page();
         }
 
@@ -47,6 +55,17 @@ namespace WebApp.Areas.Admin.Pages
                 return Page();
             }
 
+            if (Image != null)
+            {
+                var fileName = $"{Dish.DishId}" + Path.GetExtension(Image.FileName);
+                Dish.Image = fileName;
+                var path = Path.Combine(_environment.WebRootPath, "Images", fileName);
+                using (var fStream = new FileStream(path, FileMode.Create))
+                {
+                    await Image.CopyToAsync(fStream);
+                }
+            }
+            
             _context.Attach(Dish).State = EntityState.Modified;
 
             try

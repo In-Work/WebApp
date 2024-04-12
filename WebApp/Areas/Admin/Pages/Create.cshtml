@@ -12,7 +12,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Dish.DishName" class="control-label"></label>
@@ -31,8 +31,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="Dish.Image" class="control-label"></label>
-                <input asp-for="Dish.Image" class="form-control" />
-                <span asp-validation-for="Dish.Image" class="text-danger"></span>
+                <div class="custom-file mt-3">
+                    <input type="file" asp-for="Image"
+                           class="custom-file-input" id="customFile">
+                    <label class="custom-file-label"
+                           for="customFile">Выберите файл</label>
+                </div>
             </div>
             <div class="form-group">
                 <label asp-for="Dish.DishGroupId" class="control-label"></label>
@@ -49,3 +53,7 @@
     <a asp-page="Index">Back to List</a>
 </div>
 
+@section Scripts {
+    <script src="~/js/bs-custom-file-input.js"></script>
+    <script>bsCustomFileInput.init();</script>
+}
