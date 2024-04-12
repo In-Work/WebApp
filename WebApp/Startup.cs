@@ -1,10 +1,14 @@
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WebApp.Models;
 using WebApp.Services;
 using WebAppDB.Data;
 using WebAppDB.Entities;
@@ -24,8 +28,6 @@ namespace WebApp
         // Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
-            services.AddRazorPages();
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
@@ -34,7 +36,22 @@ namespace WebApp
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
                 options.Password.RequireDigit = false;
-            }).AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+            })
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
+
+            services.AddSession(opt =>
+            {
+                opt.Cookie.HttpOnly = true;
+                opt.Cookie.IsEssential = true;
+            });
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            services.AddDistributedMemoryCache();
+            services.AddControllersWithViews();
+            services.AddRazorPages();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<Cart>(sp => CartService.GetCart(sp));
         }
 
         // This method gets called by the runtime.
@@ -60,6 +77,7 @@ namespace WebApp
             app.UseStaticFiles();
             app.UseRouting();
             app.UseAuthentication();
+            app.UseSession();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
